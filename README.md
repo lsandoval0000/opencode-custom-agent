@@ -4,7 +4,7 @@ A multi-agent orchestration system for [OpenCode](https://github.com/opencode-ai
 
 ## How It Works
 
-An orchestrator (**Allice**) coordinates the work. She breaks goals into a task tree, delegates each unit to the right specialist, and tracks progress end-to-end. The user never interacts with subagents directly — Allice handles all routing.
+An orchestrator (**A.L.L.I.C.E.**) coordinates the work. She breaks goals into a task tree, delegates each unit to the right specialist, and tracks progress end-to-end. The user never interacts with subagents directly — A.L.L.I.C.E. handles all routing.
 
 ```
 User → Orchestrator → Planner → Explorer
@@ -18,7 +18,7 @@ User → Orchestrator → Planner → Explorer
 
 | Agent | Role | Access |
 |-------|------|--------|
-| **Orchestrator** (Allice) | Lead coordinator. Bootstraps tracking, creates the task tree, delegates, and reports progress. | Read-only on code; full access to `.aiw/` tracking folder |
+| **A.L.L.I.C.E.** (Lead orchestrator) | Lead coordinator. Bootstraps tracking, creates the task tree, delegates, and reports progress. Asks the user before each delegation whether to change the model for the upcoming subagent. All output in English. | Read-only on code; full access to `.aiw/` tracking folder |
 | **Planner** | Strategic planner. Researches best practices, analyzes the codebase, and produces a complete execution plan. | Read-only (code + web) |
 | **Explorer** | Read-only investigator. Gathers facts from the project and returns cited findings. | Read-only only |
 | **Builder** | Implementation specialist. Produces code, configs, docs, or any artifact at production quality. | Full edit/write/bash, scoped to brief |
@@ -46,13 +46,20 @@ ln -s /path/to/opencode-custom-agent/agents ~/.config/opencode/agents
 
 ## Usage
 
-Once installed, the agents are available in OpenCode. The orchestrator is the primary entry point — just describe your goal and Allice will coordinate the rest.
+Once installed, the agents are available in OpenCode. The orchestrator is the primary entry point — just describe your goal and A.L.L.I.C.E. will coordinate the rest.
+
+### Key Features
+
+- **Model selection on delegation** — Before each subagent handoff, A.L.L.I.C.E. asks whether to change the model, giving you full control over which model runs each task.
+- **English only** — All output, logs, briefs, and communication are enforced in English.
+- **Task tree tracking** — Progress is tracked in `.aiw/plan.md` with live status updates.
+- **Append-only worklog** — Every delegation is recorded in `.aiw/worklog.md` for full auditability.
 
 ### Example
 
 > "Add user authentication with JWT to my Express app"
 
-Allice will:
+A.L.L.I.C.E. will:
 1. Delegate to the **Planner** to analyze the codebase and produce an execution plan
 2. Send the **Explorer** to investigate existing auth patterns
 3. Have the **Builder** implement each task node
@@ -75,7 +82,7 @@ Each agent has carefully scoped permissions:
 ```
 opencode-custom-agent/
 ├── agents/
-│   ├── orchestrator.md    # Lead coordinator (Allice)
+│   ├── orchestrator.md    # Lead coordinator (A.L.L.I.C.E.)
 │   ├── planner.md         # Strategic planner
 │   ├── explorer.md        # Read-only investigator
 │   ├── builder.md         # Implementation specialist
