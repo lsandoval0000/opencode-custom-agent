@@ -50,7 +50,7 @@ Once installed, the agents are available in OpenCode. The orchestrator is the pr
 
 ### Key Features
 
-- **Model selection on delegation** — Before each subagent handoff, A.L.L.I.C.E. asks whether to change the model, giving you full control over which model runs each task.
+- **Model selection on delegation (enforced)** — Before every delegation, A.L.L.I.C.E. must ask the user whether to change the model. The chosen model is recorded in each delegation brief's MODEL field. This is a hard constraint, not optional.
 - **English only** — All output, logs, briefs, and communication are enforced in English.
 - **Task tree tracking** — Progress is tracked in `.aiw/plan.md` with live status updates.
 - **Append-only worklog** — Every delegation is recorded in `.aiw/worklog.md` for full auditability.
@@ -76,6 +76,7 @@ Each agent has carefully scoped permissions:
 - **Tester** can run commands but never edits files
 - **Documenter** can only write to `docs/` and README files
 - **Orchestrator** can only write to `.aiw/` tracking folders
+- **Model confirmation** — Before delegating to any subagent, the orchestrator asks the user whether to change the model. The selected model is recorded in the delegation brief.
 
 ## Project Structure
 
