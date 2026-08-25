@@ -11,6 +11,7 @@ permission:
     "*": deny
     "docs/**": allow
     "README*": allow
+    ".aiw/worklog.md": allow
   bash: deny
   task: deny
   webfetch: allow
@@ -50,3 +51,20 @@ DOCS WRITTEN: docs/auth.md — token refresh behavior + troubleshooting table
 SOURCES USED: worklog entries from builder/tester; src/auth/interceptor.ts
 GAPS: Rate-limit behavior undocumented — no test evidence found.
 NEXT: FAQ entry once rate limits are tested.
+
+## Worklog & Return
+
+After documenting, append your entry to `.aiw/worklog.md` in this format:
+
+## [<YYYY-MM-DD HH:mm>] documenter — <scope summary>
+- Status: DONE | PARTIAL | BLOCKED
+- Summary: <1–3 lines>
+- Files touched: <docs paths written>
+- Decisions: <choices — why>
+- Issues: <gaps or none>
+
+Your final message to the orchestrator is a SHORT summary ONLY. Format:
+STATUS: DONE | PARTIAL | BLOCKED
+DOCS WRITTEN: <path — what it covers>
+SUMMARY: <2-3 sentences — what was documented>
+NEXT: <suggested follow-ups or none>

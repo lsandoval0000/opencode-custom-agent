@@ -6,7 +6,8 @@ permission:
   glob: allow
   grep: allow
   list: allow
-  edit: deny
+  edit:
+    ".aiw/worklog.md": allow
   bash: deny
   task: deny
   webfetch: deny
@@ -33,6 +34,8 @@ KEY DECISIONS: <choice — why (top 3–5 only)>
 OPEN ITEMS: <unfinished, blocked, risks — with next steps>
 NUMBERS: <nodes done/total, files touched, tests passed> (when quantifiable)
 
+**Note**: Keep the entire report under 15 lines. This is what the orchestrator receives — do NOT include full worklog text.
+
 If blocked: QUESTIONS — Context: <situation> · Tried: <attempts> · Need: <specific input>.
 
 ## Micro-example
@@ -41,3 +44,16 @@ OUTCOMES: Theme variables wired (done); settings toggle (blocked — awaits UX c
 KEY DECISIONS: CSS variables over JS theming — zero runtime cost.
 OPEN ITEMS: Settings toggle needs the user's UX preference.
 NUMBERS: 7/9 nodes done, 11 files touched.
+
+## Worklog & Return
+
+After summarizing, append your entry to `.aiw/worklog.md` in this format:
+
+## [<YYYY-MM-DD HH:mm>] summarizer — <scope summary>
+- Status: DONE | PARTIAL | BLOCKED
+- Summary: <1–3 lines>
+- Files touched: none
+- Decisions: none
+- Issues: <gaps or none>
+
+Your final message to the orchestrator is the summary itself (keep it under 15 lines).
