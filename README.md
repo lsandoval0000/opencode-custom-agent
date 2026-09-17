@@ -26,11 +26,11 @@ User → Orchestrator → Planner ──→ writes .aiw/plan.md
 
 | Agent | Role | Access |
 |-------|------|--------|
-| **A.L.L.I.C.E.** (Lead orchestrator) | Lead coordinator. Bootstraps tracking, creates the task tree, delegates, and reports progress. Asks the user before each delegation whether to change the model for the upcoming subagent. All output in English. | Read-only on code; full access to `.aiw/` tracking folder |
-| **Planner** | Strategic planner. Researches best practices, analyzes the codebase, and produces a complete execution plan. | Read-only (code + web); writes `.aiw/plan.md` and `.aiw/worklog.md` |
-| **Explorer** | Read-only investigator. Gathers facts from the project and returns cited findings. | Read-only; appends to `.aiw/worklog.md` |
-| **Builder** | Implementation specialist. Produces code, configs, docs, or any artifact at production quality. | Full edit/write/bash, scoped to brief; appends to `.aiw/worklog.md` |
-| **Tester** | Verification specialist. Proves whether acceptance criteria hold via tests, builds, and validation checklists. | Bash; appends to `.aiw/worklog.md` |
+| **A.L.L.I.C.E.** (Lead orchestrator) | Lead coordinator. Bootstraps tracking, creates the task tree, delegates, and reports progress. **All tasks must go through ALL phases (explorer → planner → builder → tester). No exceptions, regardless of task size.** Asks the user before each delegation whether to change the model for the upcoming subagent. All output in English. | Read-only on code; full access to `.aiw/` tracking folder |
+| **Planner** | Senior-level strategic planner. Researches best practices, analyzes the codebase, and produces a complete execution plan with maximum detail. Evidence-based planning using available tools (Context7, websearch). | Read-only (code + web); writes `.aiw/plan.md` and `.aiw/worklog.md` |
+| **Explorer** | Senior-level read-only investigator. Never assumes — verifies with evidence. Leverages available tools (Context7, websearch) to gather facts from the project and returns cited findings. | Read-only (code, webfetch, websearch); appends to `.aiw/worklog.md` |
+| **Builder** | Senior-level implementation specialist. Never assumes — searches and applies design patterns. Produces code, configs, docs, or any artifact at production quality. Best possible change with maximum quality (not minimal diff). Avoids overengineering. | Full edit/write/bash, scoped to brief; appends to `.aiw/worklog.md` |
+| **Tester** | Senior QA engineer. Never assumes — tests edge cases thoroughly. Researches unfamiliar tools/libraries before testing. Proves whether acceptance criteria hold via tests, builds, and validation checklists. | Bash (code, webfetch, websearch); appends to `.aiw/worklog.md` |
 | **Summarizer** | Distills completed work into a fact-dense summary absorbable in under a minute. | Read-only; appends to `.aiw/worklog.md` |
 | **Documenter** | Writes human-readable documentation grounded in evidence from the worklog. | Edit `docs/` and `README*`; appends to `.aiw/worklog.md` |
 
@@ -76,15 +76,19 @@ A.L.L.I.C.E. will:
 5. Ask the **Summarizer** — distills what was done, writes to worklog
 6. Have the **Documenter** — writes the final docs, writes to worklog
 
+### Mandatory Phase Workflow
+
+**All tasks must go through ALL phases (explorer → planner → builder → tester). No exceptions, regardless of task size.** This is a hard constraint enforced by the orchestrator. Every task, whether a one-line fix or a complex feature, follows the complete workflow to ensure thorough investigation, planning, implementation, and verification.
+
 ### Agent Permissions
 
 Each agent has carefully scoped permissions:
 
-- **Orchestrator** — Read-only on code; writes only to `.aiw/plan.md` (node statuses). Does NOT write worklog entries.
-- **Planner** — Read-only on code + web; writes `.aiw/plan.md` and `.aiw/worklog.md`
-- **Explorer** — Read-only on code; appends to `.aiw/worklog.md`
-- **Builder** — Full edit/write/bash scoped to brief; appends to `.aiw/worklog.md`
-- **Tester** — Bash access; appends to `.aiw/worklog.md`. Never edits project files.
+- **Orchestrator** — Read-only on code; writes only to `.aiw/plan.md` (node statuses). Does NOT write worklog entries. Enforces mandatory phase workflow for all tasks.
+- **Planner** — Read-only on code + web; writes `.aiw/plan.md` and `.aiw/worklog.md`. Senior-level expertise with evidence-based planning.
+- **Explorer** — Read-only on code, webfetch, and websearch; appends to `.aiw/worklog.md`. Senior-level investigation with evidence verification.
+- **Builder** — Full edit/write/bash scoped to brief; appends to `.aiw/worklog.md`. Senior-level implementation with design pattern research.
+- **Tester** — Bash access with webfetch and websearch; appends to `.aiw/worklog.md`. Senior QA with edge case testing. Never edits project files.
 - **Summarizer** — Read-only; appends to `.aiw/worklog.md`
 - **Documenter** — Writes to `docs/` and README files; appends to `.aiw/worklog.md`
 - **Model confirmation** — Before delegating to any subagent, the orchestrator asks the user whether to change the model. The selected model is recorded in the delegation brief.
