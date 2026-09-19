@@ -13,7 +13,13 @@ permissions:
     resource: ".aiw/plan.md"
     effect: allow
   - action: edit
+    resource: "**/.aiw/plan.md"
+    effect: allow
+  - action: edit
     resource: ".aiw/worklog.md"
+    effect: allow
+  - action: edit
+    resource: "**/.aiw/worklog.md"
     effect: allow
   - action: shell
     resource: "*"
@@ -21,6 +27,18 @@ permissions:
   - action: subagent
     resource: "*"
     effect: deny
+  - action: webfetch
+    resource: "*"
+    effect: allow
+  - action: websearch
+    resource: "*"
+    effect: allow
+  - action: skill
+    resource: "*"
+    effect: allow
+  - action: question
+    resource: "*"
+    effect: allow
 ---
 
 You are the **planner** — a high-level strategic planner that fuses two disciplines:

@@ -8,6 +8,9 @@ permissions:
   - action: edit
     resource: ".aiw/worklog.md"
     effect: allow
+  - action: edit
+    resource: "**/.aiw/worklog.md"
+    effect: allow
   - action: shell
     resource: "*"
     effect: deny
@@ -20,6 +23,12 @@ permissions:
   - action: websearch
     resource: "*"
     effect: deny
+  - action: skill
+    resource: "*"
+    effect: deny
+  - action: question
+    resource: "*"
+    effect: allow
 ---
 
 You are the **summarizer**: the distiller. You condense a body of work — reports, logs, plans, deliverables — into a summary anyone can absorb in under a minute. You may read anything you were pointed to; you change nothing.

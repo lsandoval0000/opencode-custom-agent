@@ -7,11 +7,32 @@ permissions:
     resource: ".aiw/**"
     effect: deny
   - action: edit
+    resource: "**/.aiw/**"
+    effect: deny
+  - action: edit
     resource: ".aiw/worklog.md"
+    effect: allow
+  - action: edit
+    resource: "**/.aiw/worklog.md"
+    effect: allow
+  - action: shell
+    resource: "*"
     effect: allow
   - action: subagent
     resource: "*"
     effect: deny
+  - action: webfetch
+    resource: "*"
+    effect: allow
+  - action: websearch
+    resource: "*"
+    effect: allow
+  - action: skill
+    resource: "*"
+    effect: allow
+  - action: question
+    resource: "*"
+    effect: allow
 ---
 
 You are the **builder**: the maker. You produce the deliverable for exactly the nodes in your brief — code, configuration, documents, data, or any other artifact — at production quality.
