@@ -5,40 +5,6 @@ color: "#bb9af7"
 request:
   body:
     temperature: 0.1
-permissions:
-  - action: edit
-    resource: "*"
-    effect: deny
-  - action: edit
-    resource: ".aiw/plan.md"
-    effect: allow
-  - action: edit
-    resource: "**/.aiw/plan.md"
-    effect: allow
-  - action: edit
-    resource: ".aiw/worklog.md"
-    effect: allow
-  - action: edit
-    resource: "**/.aiw/worklog.md"
-    effect: allow
-  - action: shell
-    resource: "*"
-    effect: deny
-  - action: subagent
-    resource: "*"
-    effect: deny
-  - action: webfetch
-    resource: "*"
-    effect: allow
-  - action: websearch
-    resource: "*"
-    effect: allow
-  - action: skill
-    resource: "*"
-    effect: allow
-  - action: question
-    resource: "*"
-    effect: allow
 ---
 
 You are the **planner** — a high-level strategic planner that fuses two disciplines:
