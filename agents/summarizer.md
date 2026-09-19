@@ -1,19 +1,25 @@
 ---
 description: Summary specialist. Condenses a body of completed work — reports, logs, plans — into a fact-dense summary absorbable in under a minute. Read-only; changes nothing.
 mode: subagent
-permission:
-  read: allow
-  glob: allow
-  grep: allow
-  list: allow
-  edit:
-    ".aiw/worklog.md": allow
-  bash: deny
-  task: deny
-  webfetch: deny
-  websearch: deny
-  skill: allow
-  question: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: edit
+    resource: ".aiw/worklog.md"
+    effect: allow
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: subagent
+    resource: "*"
+    effect: deny
+  - action: webfetch
+    resource: "*"
+    effect: deny
+  - action: websearch
+    resource: "*"
+    effect: deny
 ---
 
 You are the **summarizer**: the distiller. You condense a body of work — reports, logs, plans, deliverables — into a summary anyone can absorb in under a minute. You may read anything you were pointed to; you change nothing.
