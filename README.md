@@ -26,13 +26,13 @@ User → Orchestrator → Planner ──→ writes .aiw/plan.md
 
 | Agent | Role | Access |
 |-------|------|--------|
-| **A.L.L.I.C.E.** (Lead orchestrator) | Lead coordinator. Bootstraps tracking, creates the task tree, delegates, and reports progress. **All tasks must go through ALL phases (explorer → planner → builder → tester). No exceptions, regardless of task size.** Asks the user before each delegation whether to change the model for the upcoming subagent. All output in English. | Read-only on code; full read+write on `.aiw/**` (bootstraps `.aiw/worklog.md`, maintains `.aiw/plan.md`); no shell, no web tools. |
+| **A.L.L.I.C.E.** (Lead orchestrator) | Lead coordinator. Bootstraps tracking, creates the task tree, delegates, and reports progress. **All tasks must go through ALL phases (explorer → planner → builder → tester). No exceptions, regardless of task size.** Asks the user before each delegation whether to change the model for the upcoming subagent. All output in English. | Read-only on code; full read+write on `.aiw/**` (bootstraps `.aiw/worklog.md` as a journal, maintains `.aiw/plan.md` with append-only `## Plan Rulings`); plan corrections require the user's prior approval; no shell, no web tools. |
 | **Planner** | Senior-level strategic planner. Researches best practices, analyzes the codebase, and produces a complete execution plan with maximum detail. Evidence-based planning using available tools (Context7, websearch). | Read-only (code + web); writes `.aiw/plan.md` and `.aiw/worklog.md`. |
-| **Explorer** | Senior-level read-only investigator. Never assumes — verifies with evidence. Leverages available tools (Context7, websearch) to gather facts from the project and returns cited findings. | Read-only (code, webfetch, websearch); appends to `.aiw/worklog.md`. |
-| **Builder** | Senior-level implementation specialist. Never assumes — searches and applies design patterns. Produces code, configs, docs, or any artifact at production quality. Best possible change with maximum quality (not minimal diff). Avoids overengineering. | Full edit + shell scoped to the brief, except `.aiw/**` (only `.aiw/worklog.md` is writable); appends to `.aiw/worklog.md`. |
-| **Tester** | Senior QA engineer. Never assumes — tests edge cases thoroughly. Researches unfamiliar tools/libraries before testing. Proves whether acceptance criteria hold via tests, builds, and validation checklists. | Shell (code, webfetch, websearch); appends to `.aiw/worklog.md`. Never edits project files. |
-| **Summarizer** | Distills completed work into a fact-dense summary absorbable in under a minute. | Read-only, no shell, no web tools; appends to `.aiw/worklog.md`. |
-| **Documenter** | Writes human-readable documentation grounded in evidence from the worklog. | Writes `docs/**` and `README*`; appends to `.aiw/worklog.md`. |
+| **Explorer** | Senior-level read-only investigator. Never assumes — verifies with evidence. Leverages available tools (Context7, websearch) to gather facts from the project and returns cited findings. | Read-only (code, webfetch, websearch); writes to `.aiw/worklog.md` (journal — visible corrections). |
+| **Builder** | Senior-level implementation specialist. Never assumes — searches and applies design patterns. Produces code, configs, docs, or any artifact at production quality. Best possible change with maximum quality (not minimal diff). Avoids overengineering. | Full edit + shell scoped to the brief, except `.aiw/**` (only `.aiw/worklog.md` is writable); writes to `.aiw/worklog.md` (journal — visible corrections). |
+| **Tester** | Senior QA engineer. Never assumes — tests edge cases thoroughly. Researches unfamiliar tools/libraries before testing. Proves whether acceptance criteria hold via tests, builds, and validation checklists. | Shell (code, webfetch, websearch); writes to `.aiw/worklog.md` (journal — visible corrections). Never edits project files. |
+| **Summarizer** | Distills completed work into a fact-dense summary absorbable in under a minute. | Read-only, no shell, no web tools; writes to `.aiw/worklog.md` (journal — visible corrections). |
+| **Documenter** | Writes human-readable documentation grounded in evidence from the worklog. | Writes `docs/**` and `README*`; writes to `.aiw/worklog.md` (journal — visible corrections). |
 
 **Note:** The **Access** column describes each agent's own instructions rather than a declarative configuration; OpenCode's base policy applies underneath, and each agent's scope is enforced through its prompt.
 
@@ -69,14 +69,16 @@ Once installed, the agents are available in OpenCode. **A.L.L.I.C.E.** (agent ID
 - **English only** — All output, logs, briefs, and communication are enforced in English.
 - **Task tree tracking** — Progress is tracked in `.aiw/plan.md` with live status updates.
 - **Self-sufficient subagents** — Each subagent writes its own outputs directly to files (plan, worklog) and returns only a short summary to the orchestrator. The orchestrator never handles full deliverable content.
-- **Append-only worklog** — A.L.L.I.C.E. bootstraps `.aiw/worklog.md` (session header) and maintains `.aiw/plan.md`; every subagent appends its own entry to `.aiw/worklog.md` for full auditability. A.L.L.I.C.E. does not duplicate subagent entries.
+- **Journal worklog (visible corrections)** — `.aiw/worklog.md` shows everything end to end. Entries may be corrected in place, but nothing is ever silently rewritten: a correction must strike the wrong value through, put the correct value beside it, and state the reason (e.g. `~~wrong~~ **correct** — corrected <YYYY-MM-DD HH:mm>: <reason>`). Deleting or pruning is forbidden.
+- **Append-only plan rulings** — `.aiw/plan.md` carries a `## Plan Rulings` section; rulings are appended and never edited or deleted, and a later ruling supersedes an earlier one by reference.
+- **User-approved plan corrections** — a generated plan may be validated and corrected later, but only with the user's approval: A.L.L.I.C.E. first notifies the user (what is wrong, the fix, the impact); each change is recorded as a ruling.
 
 ### Example
 
 > "Add user authentication with JWT to my Express app"
 
 A.L.L.I.C.E. will:
-1. Delegate to the **Planner** — writes the plan directly to `.aiw/plan.md`, returns a summary
+1. Delegate to the **Planner** — writes the plan directly to `.aiw/plan.md` (including an append-only `## Plan Rulings` section), returns a summary
 2. Send the **Explorer** — investigates existing auth patterns, writes findings to worklog
 3. Have the **Builder** — implements each task node, writes to worklog
 4. Run the **Tester** — verifies acceptance criteria, writes to worklog

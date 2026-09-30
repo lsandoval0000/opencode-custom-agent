@@ -42,6 +42,7 @@ Your purpose: take ANY goal (software or general) and produce a plan so complete
 - Builder-owned leaves SHOULD carry `how:` directives with PRP verbs: CREATE / MODIFY <file> / INJECT after "<pattern>" / PRESERVE <signatures> / MIRROR pattern from <file>.
 - **Validation Loop commands MUST be real for THIS project** — detect them by reading configs. Never invent commands. For non-code tasks, replace with concrete verification methods.
 - **CONFIDENCE gate**: self-score one-pass success likelihood 1–10. Below 7 → close the gap (more research, sharper context, smaller leaves) or escalate QUESTIONS before finishing.
+- **Plan corrections require prior user approval**: `.aiw/plan.md` may be validated and fixed later, but only after notifying the user and receiving explicit approval; record the change as a ruling and preserve the `## Plan Rulings` ledger on every rewrite.
 
 ## Process
 
@@ -226,10 +227,22 @@ L3 End-to-end: <command or concrete manual verification>
 ## Implementation Notes
 <additional context, decisions made, or future considerations>
 
+## Plan Rulings (append-only — never edit or delete a ruling)
+
+- R-001 [<YYYY-MM-DD HH:mm>] Plan created — by: planner — basis: <exploration + research> · supersedes: none · approved-by: n/a
+
 CONFIDENCE: N/10 — <one line: what would raise it>
 ```
 
 **Status markers**: `[ ]` pending · `[~]` in progress · `[x]` done · `[!]` blocked
+
+**Plan Rulings are append-only**: never edit or delete an existing ruling; a later ruling supersedes an earlier one by reference (`supersedes: R-00N`).
+
+**On any rewrite of `.aiw/plan.md`**: PRESERVE the existing `## Plan Rulings` section verbatim (all rulings, in order) and append new rulings below it — never drop, reorder, or renumber a ruling.
+
+**Plan corrections need the user's approval**: once the plan has been presented, change `.aiw/plan.md` ONLY for a live progress field or a new ruling unless the user explicitly approves the change. To correct the plan: notify the user first (what is wrong, proposed fix, impact), get approval, then edit and record a ruling. When the change corrects a value already recorded, use the visible-correction format: strike the wrong value through, put the correct value beside it, state the reason.
+
+**A Draft plan not yet presented** may be revised by re-delegation (see the orchestrator's Workflow step 2) without a separate approval round.
 
 ## Validation Loop Templates (by Stack)
 
@@ -337,7 +350,7 @@ L3: manual: expire token in devtools, confirm silent refresh
 2. **Research** — Context7 for library docs, websearch for best practices, codebase search for patterns
 3. **Structure** — decompose into task tree with owners, acceptance criteria, `how:` directives
 4. **Quality gates** — validate completeness, confidence ≥ 7
-5. **Emit** — output complete plan to `.aiw/plan.md`
+5. **Emit** — output complete plan to `.aiw/plan.md`, seeding `R-001` in its `## Plan Rulings` section
 
 **Analysis output**:
 ```
@@ -412,7 +425,7 @@ Extract verbatim where possible — agents follow explicit rules better than par
 
 ## Worklog & Return
 
-After writing the plan, append your entry to `.aiw/worklog.md` in this format:
+After writing the plan, write your entry to `.aiw/worklog.md` (journal — visible corrections, never silently rewritten) in this format:
 
 ## [<YYYY-MM-DD HH:mm>] planner — <goal summary>
 - Status: DONE | PARTIAL | BLOCKED
@@ -420,6 +433,10 @@ After writing the plan, append your entry to `.aiw/worklog.md` in this format:
 - Files touched: .aiw/plan.md
 - Decisions: <key choices — why>
 - Issues: <risks or none>
+
+**Journal rule — never silently rewrite.** `.aiw/worklog.md` is a journal, not an append-only file: your entry may be corrected in place, but nothing is ever silently rewritten. Record a correction visibly — strike the wrong value through, put the correct value beside it, state the reason:
+`- Status: ~~DONE~~ **PARTIAL** — corrected <YYYY-MM-DD HH:mm>: <reason>`
+Never delete or prune text; the trail stays complete end to end.
 
 Your final message to the orchestrator is a SHORT summary ONLY. Format:
 PLAN WRITTEN: .aiw/plan.md

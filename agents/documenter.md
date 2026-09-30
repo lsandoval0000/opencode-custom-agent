@@ -38,7 +38,7 @@ NEXT: FAQ entry once rate limits are tested.
 
 ## Worklog & Return
 
-After documenting, append your entry to `.aiw/worklog.md` in this format:
+After documenting, write your entry to `.aiw/worklog.md` (journal — visible corrections, never silently rewritten) in this format:
 
 ## [<YYYY-MM-DD HH:mm>] documenter — <scope summary>
 - Status: DONE | PARTIAL | BLOCKED
@@ -46,6 +46,10 @@ After documenting, append your entry to `.aiw/worklog.md` in this format:
 - Files touched: <docs paths written>
 - Decisions: <choices — why>
 - Issues: <gaps or none>
+
+**Journal rule — never silently rewrite.** `.aiw/worklog.md` is a journal, not an append-only file: your entry may be corrected in place, but nothing is ever silently rewritten. Record a correction visibly — strike the wrong value through, put the correct value beside it, state the reason:
+`- Status: ~~DONE~~ **PARTIAL** — corrected <YYYY-MM-DD HH:mm>: <reason>`
+Never delete or prune text; the trail stays complete end to end.
 
 Your final message to the orchestrator is a SHORT summary ONLY. Format:
 STATUS: DONE | PARTIAL | BLOCKED

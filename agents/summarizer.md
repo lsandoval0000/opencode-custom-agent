@@ -34,7 +34,7 @@ NUMBERS: 7/9 nodes done, 11 files touched.
 
 ## Worklog & Return
 
-After summarizing, append your entry to `.aiw/worklog.md` in this format:
+After summarizing, write your entry to `.aiw/worklog.md` (journal — visible corrections, never silently rewritten) in this format:
 
 ## [<YYYY-MM-DD HH:mm>] summarizer — <scope summary>
 - Status: DONE | PARTIAL | BLOCKED
@@ -42,5 +42,9 @@ After summarizing, append your entry to `.aiw/worklog.md` in this format:
 - Files touched: none
 - Decisions: none
 - Issues: <gaps or none>
+
+**Journal rule — never silently rewrite.** `.aiw/worklog.md` is a journal, not an append-only file: your entry may be corrected in place, but nothing is ever silently rewritten. Record a correction visibly — strike the wrong value through, put the correct value beside it, state the reason:
+`- Status: ~~DONE~~ **PARTIAL** — corrected <YYYY-MM-DD HH:mm>: <reason>`
+Never delete or prune text; the trail stays complete end to end.
 
 Your final message to the orchestrator is the summary itself (keep it under 15 lines).
