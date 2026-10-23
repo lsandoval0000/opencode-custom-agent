@@ -2,6 +2,33 @@
 
 User-facing notes on changes to the agent/instruction corpus. Newest first.
 
+## 2026-10-23 — Multi-plan workspaces: global index, sub-plans, routed worklogs
+
+The single-plan / single-worklog model is gone. A goal can now span **multiple sub-plans**, each with its own **worklog**, all indexed by one **global plan**. The root tracking folder is still `.aiw/`; only the layout and ownership rules changed. The rules live in all 7 `agents/*.md` files and `README.md` (the repo's deliberate sync convention).
+
+### What changed
+
+- **`.aiw/global-plan.md` is the root.** It is an index, not a task tree: a goal line, a sub-plan registry (`SP-N`, file, worklog, dependencies, status), an execution order, and an append-only `## Global Rulings` ledger (`GR-00N`).
+- **Sub-plans live in `.aiw/plans/<slug>.md`.** The planner writes **one or more** self-contained sub-plans, each using the sub-plan template and scoped to its own slice. It never writes the global plan. It returns a manifest (files, titles, scopes, dependencies, confidence) instead of plan content.
+- **The orchestrator owns the index and the routing.** After the planner returns, A.L.L.I.C.E. creates `global-plan.md`, assigns `SP-N` IDs in dependency order, creates one worklog per sub-plan, and records `GR-001`.
+- **One worklog per sub-plan.** Worklogs live at `.aiw/worklogs/<slug>.md`; planning/re-planning uses `.aiw/worklogs/planning.md`. Every delegation brief now carries `GLOBAL PLAN`, `SUB-PLAN`, and `WORKLOG`, and subagents write **only** to the routed worklog. A brief without `WORKLOG` is invalid — the subagent must return BLOCKED.
+- **Global plan gate on every session.** A.L.L.I.C.E. checks `.aiw/global-plan.md` before any delegation. If it is missing, she asks the user what to do (plan now, index existing sub-plans, or stop) and never invents one. If it exists, she verifies every referenced sub-plan and worklog before routing.
+- **The template is reused per sub-plan.** The planner's output format is now explicitly the **Sub-Plan Template**, applied to every sub-plan and scoped to that sub-plan's context. Tree limits (10 wide / 5 deep) apply per sub-plan.
+- **Rulings are split by scope.** Plan-local rulings (`R-00N`) stay in each sub-plan; set-level rulings (`GR-00N`) live in the global plan. Both remain append-only; corrections still need the user's prior approval and a visible-correction trail. Live progress markers are not rulings.
+- **Legacy files are gone.** There is no `.aiw/plan.md` and no `.aiw/worklog.md`; references to them were removed from every agent and the README.
+
+### Why it matters
+
+- **Large goals scale:** one goal can be decomposed into independently executable, verifiable pieces without one giant plan file.
+- **Clean audit trail:** each sub-plan's work is journaled in its own worklog, and set-level decisions have their own immutable ledger.
+- **No guessed paths:** the orchestrator is the single router; subagents cannot drift into the wrong plan or log.
+
+### Notes
+
+- Scope: the 7 `agents/*.md` definitions, `README.md`, and this changelog entry. Historical changelog entries are left intact — they record the model as it was.
+- Validation was a text-consistency pass: no fixed `.aiw/plan.md` or `.aiw/worklog.md` paths in the agent definitions or README; routing fields and the `Sub-plan:` entry line present in all executors; the planner template and manifest present; the README matches the implemented rules.
+- Disclosure: this repo's `agents/` files were **not** copied to `~/.config/opencode/agents` in this change; the live config will be updated separately.
+
 ## 2026-09-30 — A correctable trail: journal worklog, append-only plan rulings, user-approved plan corrections
 
 A trust overhaul of how the agents record work. The trail stays **complete end to end**, and it can now be **fixed without being hidden**. The rules are duplicated in all 7 `agents/*.md` files and `README.md` (the repo's deliberate sync convention).
